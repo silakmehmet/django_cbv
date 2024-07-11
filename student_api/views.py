@@ -5,6 +5,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, mixins
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.viewsets import ModelViewSet
 
 from .models import Path, Student
 from .serializers import PathSerializer, StudentSerializer
@@ -158,5 +159,15 @@ class PathRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
 
 
 class StudentRetrieveUpdateDestroyCAV(RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class PathModelViewSet(ModelViewSet):
+    queryset = Path.objects.all()
+    serializer_class = PathSerializer
+
+
+class StudentModelViewSet(ModelViewSet):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer

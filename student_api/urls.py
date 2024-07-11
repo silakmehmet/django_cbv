@@ -1,4 +1,6 @@
-from django.urls import path
+from django.urls import path, include
+
+from rest_framework.routers import DefaultRouter
 
 from .views import (
     # API Views
@@ -18,8 +20,15 @@ from .views import (
     StudentRetrieveUpdateDestroyCAV,
     PathListCreateCAV,
     PathRetrieveUpdateDestroy,
+
+    # Model View Sets
+    StudentModelViewSet,
+    PathModelViewSet
 )
 
+router = DefaultRouter()
+router.register("paths", PathModelViewSet)
+router.register("students", StudentModelViewSet)
 
 urlpatterns = [
     # APIView
@@ -36,11 +45,13 @@ urlpatterns = [
     # path("student/<int:pk>", StudentDetailGAV.as_view()),
 
     # Concrete API Views
-    path("paths/", PathListCreateCAV.as_view()),
-    path("path/<int:pk>", PathRetrieveUpdateDestroy.as_view()),
-    path("students/", StudentListCreateCAV.as_view()),
-    path("student/<int:pk>", StudentRetrieveUpdateDestroyCAV.as_view()),
+    # path("paths/", PathListCreateCAV.as_view()),
+    # path("path/<int:pk>", PathRetrieveUpdateDestroy.as_view()),
+    # path("students/", StudentListCreateCAV.as_view()),
+    # path("student/<int:pk>", StudentRetrieveUpdateDestroyCAV.as_view()),
 
+    # Model View Sets
+    path("", include(router.urls))
 
 
 ]
