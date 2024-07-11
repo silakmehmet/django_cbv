@@ -9,8 +9,7 @@ class StudentSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Student
-        fields = ("id", "first_name", "last_name", "number",
-                  "age", "born_year", "path", "path_id")
+        fields = "__all__"
 
     def get_born_year(self, obj):
         import datetime
@@ -19,6 +18,8 @@ class StudentSerializer(serializers.ModelSerializer):
 
 
 class PathSerializer(serializers.ModelSerializer):
+
+    students = StudentSerializer(many=True)
 
     class Meta:
         model = Path
