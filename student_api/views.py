@@ -4,9 +4,12 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.generics import GenericAPIView, mixins
+from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView
 
 from .models import Path, Student
 from .serializers import PathSerializer, StudentSerializer
+
+# API Views
 
 
 class PathListCreate(APIView):
@@ -87,6 +90,7 @@ class StudentRetrieveUpdateDestroy(APIView):
         return Response(message)
 
 
+# Generic API Views
 class PathGAV(mixins.ListModelMixin, mixins.CreateModelMixin, GenericAPIView):
     queryset = Path.objects.all()
     serializer_class = PathSerializer
@@ -135,3 +139,24 @@ class StudentDetailGAV(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, mixin
 
     def delete(self, request, *args, **kwargs):
         return self.destroy(request, *args, **kwargs)
+
+
+# Concrete Views
+class PathListCreateCAV(ListCreateAPIView):
+    queryset = Path.objects.all()
+    serializer_class = PathSerializer
+
+
+class StudentListCreateCAV(ListCreateAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+class PathRetrieveUpdateDestroy(RetrieveUpdateDestroyAPIView):
+    queryset = Path.objects.all()
+    serializer_class = PathSerializer
+
+
+class StudentRetrieveUpdateDestroyCAV(RetrieveUpdateDestroyAPIView):
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
