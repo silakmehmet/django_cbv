@@ -4,8 +4,8 @@ from .models import Student, Path
 
 class StudentSerializer(serializers.ModelSerializer):
     born_year = serializers.SerializerMethodField()  # read_only
-    path = serializers.StringRelatedField()  # read_onyl
     path_id = serializers.IntegerField()
+    path_name = serializers.SerializerMethodField()
 
     class Meta:
         model = Student
@@ -16,10 +16,11 @@ class StudentSerializer(serializers.ModelSerializer):
         current_time = datetime.datetime.now()
         return current_time.year - obj.age
 
+    def get_path_name(self, obj):
+        return obj.path.path_name
+
 
 class PathSerializer(serializers.ModelSerializer):
-
-    students = StudentSerializer(many=True)
 
     class Meta:
         model = Path
